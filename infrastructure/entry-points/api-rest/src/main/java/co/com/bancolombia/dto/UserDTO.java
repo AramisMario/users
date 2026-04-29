@@ -18,8 +18,8 @@ public class UserDTO {
     private String email;
     @NotBlank
     private String password;
-    @Positive
-    private int idRol;
+    //@Positive
+    //private int idRol;
     private String birthDate;
 
 }

@@ -12,12 +12,13 @@ spring:
   profiles:
     include: null
   datasource:
-    url: "jdbc:h2:mem:test"
-    username: "sa"
-    password: ""
-    driverClassName: "org.h2.Driver"
+    url: "jdbc:mysql://localhost:3306/talentpooljava"
+    username: "root"
+    password: "Ka55#27uTJ9s"
+    driverClassName: "com.mysql.cj.jdbc.Driver"
   jpa:
-    databasePlatform: "org.hibernate.dialect.H2Dialect"
+    #databasePlatform: "org.hibernate.dialect.H2Dialect"
+    databasePlatform: org.hibernate.dialect.MySQLDialect
 management:
   endpoints:
     web:
