@@ -2,6 +2,7 @@ package co.com.bancolombia.dto;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.*;
+//import co.com.bancolombia.model.role.Role;
 @Getter
 @Setter
 public class UserDTO {
@@ -19,7 +20,7 @@ public class UserDTO {
     @NotBlank
     private String password;
     //@Positive
-    //private int idRol;
+    private int idRole;
     private String birthDate;
 
 }

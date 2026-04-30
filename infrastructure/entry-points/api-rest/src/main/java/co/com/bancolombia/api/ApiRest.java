@@ -6,11 +6,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import co.com.bancolombia.dto.UserDTO;
 import co.com.bancolombia.model.baseUser.User;
+import co.com.bancolombia.model.role.Role;
+
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.com.bancolombia.usecase.createuser.CreateUserUseCase;
+import java.lang.Integer;
 /**
  * API Rest controller.
  * 
@@ -43,25 +46,21 @@ public class ApiRest {
         System.out.println("Api endpoint CREATE USER");
 
         
-        User user =  User.builder().name("Nelson")
-        .lastName("LastName")
-        .identificationDocument("12345678")
-        .phone("573256784")
-        .email("mario@gmail.com")
-        .password("password")
+        User user =  User.builder().name(dto.getName())
+        .lastName(dto.getLastName())
+        .identificationDocument(dto.getIdentificationDocument())
+        .phone(dto.getPhone())
+        .email(dto.getEmail())
+        .role(
+            Role.builder().name("Administrator").build()
+        )
+        .password(dto.getPassword())
         .build();
 
+        System.out.println("ID ROL: ");
+        System.out.println(user.getRole());
+        System.out.println(dto.getIdRole());
         createUserCase.exect(user);
-
-        /*
-        UserOwner userOwn = UserOwner.builder()
-        .name("Nelson")
-        .lastName("LastName")
-        .identificationDocument("Documento")
-        .phone("")
-        .email("")
-        .password("")
-        .build();*/
 
         return ResponseEntity
         .status(HttpStatus.CREATED)
