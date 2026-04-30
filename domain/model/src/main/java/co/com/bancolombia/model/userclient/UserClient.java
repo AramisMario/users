@@ -13,9 +13,5 @@ import lombok.Setter;
 //@SuperBuilder(toBuilder = true)
 public class UserClient{
 
-    /*
-    UserClient(String name, String lastName, String identificationDocument, String phone, String email, String idRol, String password){
-        super(name, lastName, identificationDocument, phone, email, idRol, password);
-    }*/
 
 }

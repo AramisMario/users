@@ -1,6 +1,7 @@
 package co.com.bancolombia.jpa.user.userEntity;
 
 import jakarta.persistence.*;
+import co.com.bancolombia.jpa.roleEntity.RoleEntity;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +16,11 @@ public class UserEntity {
     private String identificationDocument;
     private String phone;
     private String email;
-    // private String idRol;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idRole")
+    private RoleEntity role;
+
     private String password;
 
     public void setName(String name){
@@ -37,6 +42,12 @@ public class UserEntity {
     public void setEmail(String email){
         this.email = email;
     }
+
+    
+    public void setRole(RoleEntity role){
+        this.role = role;
+    }
+
 
     public void setPassword(String password){
         this.password = password;
