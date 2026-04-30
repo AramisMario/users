@@ -1,13 +1,16 @@
 package co.com.bancolombia.jpa.role;
-import co.com.bancolombia.jpa.role.roleEntity.RoleEntity;
 import co.com.bancolombia.jpa.helper.AdapterOperations;
+import co.com.bancolombia.jpa.role.roleEntity.RoleEntity;
+
+import java.util.Optional;
+
 import org.reactivecommons.utils.ObjectMapper;
 import org.springframework.stereotype.Repository;
 
 import co.com.bancolombia.model.role.Role;
 import co.com.bancolombia.model.role.gateways.RoleRepository;
 @Repository
-public class JPARoleRepositoryAdapter extends AdapterOperations<Role, RoleEntity, String, JPARoleRepository> implements RoleRepository
+public class JPARoleRepositoryAdapter extends AdapterOperations<Role, RoleEntity, Integer, JPARoleRepository> implements RoleRepository
 // implements ModelRepository from domain
 {
 
@@ -18,6 +21,12 @@ public class JPARoleRepositoryAdapter extends AdapterOperations<Role, RoleEntity
          *  Or using mapper.map with the class of the object model
          */
         super(repository, mapper, d -> mapper.map(d, Role.class));
+    }
+
+    @Override
+    public Role findById(int idRole){
+        RoleEntity roleEntity = repository.findById(idRole).orElseThrow();
+        return Role.builder().id(roleEntity.getId()).name(roleEntity.getName()).build();
     }
 
     /*

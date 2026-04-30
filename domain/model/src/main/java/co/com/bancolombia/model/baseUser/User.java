@@ -13,13 +13,14 @@ import co.com.bancolombia.model.role.Role;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-
-    protected String name;
-    protected String lastName;
-    protected String identificationDocument;
-    protected String phone;
-    protected String email;
-    protected Role role;
-    protected String password;
+    private Integer id;
+    private String name;
+    private String lastName;
+    private String identificationDocument;
+    private String phone;
+    private String email;
+    private Role role;
+    private String password;
+    private String birthDate;
 
 }

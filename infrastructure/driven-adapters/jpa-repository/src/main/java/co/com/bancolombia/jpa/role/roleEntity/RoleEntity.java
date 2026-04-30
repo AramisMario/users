@@ -1,16 +1,24 @@
-package co.com.bancolombia.jpa.roleEntity;
+package co.com.bancolombia.jpa.role.roleEntity;
 
 import jakarta.persistence.*;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Entity
 @Table(name = "roles")
 public class RoleEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
+
     private String name;
 
-    public void setName(String name) {
+    /*
+    public void setName(String name){
         this.name = name;
     }
+    */
+
 }

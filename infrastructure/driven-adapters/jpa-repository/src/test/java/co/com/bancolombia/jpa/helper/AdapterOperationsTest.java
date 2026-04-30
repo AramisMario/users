@@ -1,7 +1,7 @@
 package co.com.bancolombia.jpa.helper;
 
-import co.com.bancolombia.jpa.JPAUserRepository;
-import co.com.bancolombia.jpa.JPAUserRepositoryAdapter;
+import co.com.bancolombia.jpa.user.JPAUserRepository;
+import co.com.bancolombia.jpa.user.JPAUserRepositoryAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

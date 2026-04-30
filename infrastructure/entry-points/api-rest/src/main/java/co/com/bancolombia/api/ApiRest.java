@@ -1,16 +1,18 @@
 package co.com.bancolombia.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import co.com.bancolombia.dto.UserDTO;
+//import co.com.bancolombia.model.role.Role;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import co.com.bancolombia.dto.UserDTO;
 import co.com.bancolombia.model.baseUser.User;
-import co.com.bancolombia.model.role.Role;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
+//import co.com.bancolombia.model.role.gateways.RoleRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import co.com.bancolombia.usecase.createuser.CreateUserCommand;
 import co.com.bancolombia.usecase.createuser.CreateUserUseCase;
 /**
  * API Rest controller.
@@ -30,28 +32,27 @@ import co.com.bancolombia.usecase.createuser.CreateUserUseCase;
 public class ApiRest {
 
     private final CreateUserUseCase createUserCase;
-    //private final CreateRoleUseCase createRoleCase;
+    //private final RoleRepository roleRepository;
 
     @PostMapping(path = "/createuser/path")
     public ResponseEntity createUser(@Valid @RequestBody UserDTO dto){
         System.out.println("Api endpoint CREATE USER");
 
-        
-        User user =  User.builder().name(dto.getName())
+        //Role role = roleRepository.findById(dto.getIdRole());
+
+        User user = User.builder().name(dto.getName())
         .lastName(dto.getLastName())
         .identificationDocument(dto.getIdentificationDocument())
         .phone(dto.getPhone())
         .email(dto.getEmail())
-        .role(
-            Role.builder().name("Administrator").build()
-        )
+        .role(null)
         .password(dto.getPassword())
+        .birthDate(dto.getBirthDate())
         .build();
 
-        System.out.println("ID ROL: ");
-        System.out.println(user.getRole());
-        System.out.println(dto.getIdRole());
-        createUserCase.exect(user);
+        CreateUserCommand createUserCommand = new CreateUserCommand(user, dto.getIdRole());
+
+        createUserCase.exect(createUserCommand);
 
         return ResponseEntity
         .status(HttpStatus.CREATED)

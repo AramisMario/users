@@ -15,12 +15,14 @@ public class UserDTO {
     private String identificationDocument;
     @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$")
     private String phone;
-    @Email
+    //@Email
+    @Pattern(regexp = "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$")
     private String email;
     @NotBlank
     private String password;
-    //@Positive
-    private int idRole;
+    @Positive
+    private Integer idRole;
+    @Pattern(regexp = "^(19|20)\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$")
     private String birthDate;
 
 }

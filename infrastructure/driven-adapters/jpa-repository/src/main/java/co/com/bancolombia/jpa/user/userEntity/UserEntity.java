@@ -1,15 +1,18 @@
 package co.com.bancolombia.jpa.user.userEntity;
 
+import co.com.bancolombia.jpa.role.roleEntity.RoleEntity;
 import jakarta.persistence.*;
-import co.com.bancolombia.jpa.roleEntity.RoleEntity;
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String name;
     private String lastName;
@@ -22,6 +25,9 @@ public class UserEntity {
     private RoleEntity role;
 
     private String password;
+    private String birthDate;
+
+    /*
 
     public void setName(String name){
         this.name = name;
@@ -53,4 +59,5 @@ public class UserEntity {
         this.password = password;
     }
 
+    */
 }
