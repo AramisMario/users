@@ -1,4 +1,4 @@
-package co.com.bancolombia.jpa.userEntity;
+package co.com.bancolombia.jpa.user.userEntity;
 
 import jakarta.persistence.*;
 

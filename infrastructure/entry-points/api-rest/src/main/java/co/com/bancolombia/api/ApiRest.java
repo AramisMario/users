@@ -5,12 +5,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import co.com.bancolombia.dto.UserDTO;
+
 import co.com.bancolombia.model.baseUser.User;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import co.com.bancolombia.usecase.createuser.CreateUserUseCase;
+
 /**
  * API Rest controller.
  * 
@@ -28,15 +30,8 @@ import co.com.bancolombia.usecase.createuser.CreateUserUseCase;
 @RequiredArgsConstructor
 public class ApiRest {
 
-
     private final CreateUserUseCase createUserCase;
-
-    //@GetMapping(path = "/createuser/path")
-    //public String commandName() {
-    //    System.out.println("Api endpoint CREATE USER");
-    //    CreateUserUseCase createUserCase = new CreateUserUseCase();
-    //    return createUserCase.exect().toString();
-    //}
+    //private final CreateRoleUseCase createRoleCase;
 
     @PostMapping(path = "/createuser/path")
     public ResponseEntity createUser(@Valid @RequestBody UserDTO dto){
@@ -52,16 +47,6 @@ public class ApiRest {
         .build();
 
         createUserCase.exect(user);
-
-        /*
-        UserOwner userOwn = UserOwner.builder()
-        .name("Nelson")
-        .lastName("LastName")
-        .identificationDocument("Documento")
-        .phone("")
-        .email("")
-        .password("")
-        .build();*/
 
         return ResponseEntity
         .status(HttpStatus.CREATED)

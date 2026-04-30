@@ -1,7 +1,7 @@
 package co.com.bancolombia.jpa.helper;
 
-import co.com.bancolombia.jpa.JPARepository;
-import co.com.bancolombia.jpa.JPARepositoryAdapter;
+import co.com.bancolombia.jpa.JPAUserRepository;
+import co.com.bancolombia.jpa.JPAUserRepositoryAdapter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -19,12 +19,12 @@ import static org.mockito.Mockito.when;
 class AdapterOperationsTest {
 
     @Mock
-    private JPARepository repository;
+    private JPAUserRepository repository;
 
     @Mock
     private ObjectMapper objectMapper;
 
-    private JPARepositoryAdapter adapter;
+    private JPAUserRepositoryAdapter adapter;
 
     @BeforeEach
     void setUp() {
@@ -32,7 +32,7 @@ class AdapterOperationsTest {
 
         when(objectMapper.map("value", Object.class)).thenReturn("value");
 
-        adapter = new JPARepositoryAdapter(repository, objectMapper);
+        adapter = new JPAUserRepositoryAdapter(repository, objectMapper);
     }
 
     @Test
