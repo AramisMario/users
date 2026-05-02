@@ -2,12 +2,13 @@ package co.com.bancolombia.jpa.user;
 import co.com.bancolombia.jpa.user.userEntity.UserEntity;
 import co.com.bancolombia.jpa.helper.AdapterOperations;
 import org.reactivecommons.utils.ObjectMapper;
+//import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import co.com.bancolombia.model.baseUser.User;
 import co.com.bancolombia.model.baseUser.gateways.UserRepository;
 @Repository
-public class JPAUserRepositoryAdapter extends AdapterOperations<User, UserEntity, String, JPAUserRepository> implements UserRepository
+public class JPAUserRepositoryAdapter extends AdapterOperations<User, UserEntity, Integer, JPAUserRepository> implements UserRepository
 // implements ModelRepository from domain
 {
 
@@ -21,6 +22,7 @@ public class JPAUserRepositoryAdapter extends AdapterOperations<User, UserEntity
     }
 
     /*
+
     @Override
     public User saveUser(User user) {
 

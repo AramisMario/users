@@ -11,6 +11,9 @@ import java.util.function.Function;
 
 import static java.util.stream.StreamSupport.stream;
 
+import co.com.bancolombia.model.baseUser.User;
+import co.com.bancolombia.jpa.user.userEntity.UserEntity;
+
 public abstract class AdapterOperations<E, D, I, R extends CrudRepository<D, I> & QueryByExampleExecutor<D>> {
     protected R repository;
     private final Class<D> dataClass;
