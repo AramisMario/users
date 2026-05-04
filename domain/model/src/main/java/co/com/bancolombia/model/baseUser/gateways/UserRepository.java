@@ -8,6 +8,7 @@ public interface UserRepository {
     //<T> User findById(T id);
 
     User save(User user);
+    User findById(Integer id);
     //List<User> saveAll(List<User> users);
 
 }

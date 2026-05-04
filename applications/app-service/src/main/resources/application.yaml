@@ -12,7 +12,7 @@ spring:
   profiles:
     include: null
   datasource:
-    url: "jdbc:mysql://localhost:3306/talentpooljava"
+    url: "jdbc:mysql://localhost:3306/db-users"
     username: "root"
     password: "Ka55#27uTJ9s"
     driverClassName: "com.mysql.cj.jdbc.Driver"
