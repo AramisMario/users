@@ -31,8 +31,7 @@ import co.com.bancolombia.usecase.createuser.CreateUserUseCase;
 @RequiredArgsConstructor
 public class ApiRest {
 
-    private final CreateUserUseCase createUserCase;
-    //private final RoleRepository roleRepository;
+    private final CreateUserUseCase createUserUseCase;
 
     @PostMapping(path = "/createuser/path")
     public ResponseEntity createUser(@Valid @RequestBody UserDTO dto){
@@ -52,12 +51,12 @@ public class ApiRest {
 
         CreateUserCommand createUserCommand = new CreateUserCommand(user, dto.getIdRole());
 
-        createUserCase.exect(createUserCommand);
+        User savedUser = createUserUseCase.execute(createUserCommand);
 
         return ResponseEntity
         .status(HttpStatus.CREATED)
         .header("Custom-Header", "valor")
-        .body("Created success");
+        .body(savedUser);
     }
 
 }

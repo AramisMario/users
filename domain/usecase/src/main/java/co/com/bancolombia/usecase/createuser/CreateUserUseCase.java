@@ -5,6 +5,7 @@ import co.com.bancolombia.model.baseUser.gateways.UserRepository;
 import co.com.bancolombia.model.role.Role;
 import co.com.bancolombia.model.role.gateways.RoleRepository;
 import lombok.RequiredArgsConstructor;
+
 @RequiredArgsConstructor
 public class CreateUserUseCase {
 
@@ -13,17 +14,22 @@ public class CreateUserUseCase {
     private final EncryptInterface encrypt;
     //private User user;
 
-    public User exect(CreateUserCommand command/*User user*/){
+    public User execute(CreateUserCommand command/*User user*/){
         System.out.println("DESDE CASO DE USO");
 
         Role role = roleRepository.findById(command.getIdRole());
         User user = command.getUser();
+
+        if(user.calcAge() < 18){
+            throw new IllegalArgumentException("El usuario es menor de edad");
+        }
+
         user.setRole(role);
 
         user.setPassword(encrypt.encrypt(user.getPassword()));
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        return user;
+        return savedUser;
     }
 
 }

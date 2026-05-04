@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import co.com.bancolombia.model.role.Role;
+import java.time.LocalDate;
+import java.time.Period;
 
 @Getter
 @Setter
@@ -22,5 +24,10 @@ public class User {
     private Role role;
     private String password;
     private String birthDate;
+
+    public int calcAge(){
+        LocalDate birthDate = LocalDate.parse(this.birthDate);
+        return Period.between(birthDate, LocalDate.now()).getYears();
+    }
 
 }
