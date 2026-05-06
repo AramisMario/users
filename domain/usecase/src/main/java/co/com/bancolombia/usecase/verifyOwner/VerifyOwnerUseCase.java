@@ -21,8 +21,6 @@ public class VerifyOwnerUseCase {
             throw new UserNotFoundException();
         }
 
-        System.out.println("OWNER ? : "+user.getRole().getName());
-
         if(!user.getRole().getName().equals("Owner")){
             throw new UserNotOwnerException();
         }
