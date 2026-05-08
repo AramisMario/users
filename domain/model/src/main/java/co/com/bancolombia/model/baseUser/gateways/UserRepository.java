@@ -1,5 +1,5 @@
 package co.com.bancolombia.model.baseUser.gateways;
-//import java.util.List;
+import java.util.List;
 
 import co.com.bancolombia.model.baseUser.User;
 public interface UserRepository {
@@ -9,6 +9,7 @@ public interface UserRepository {
 
     User save(User user);
     User findById(Integer id);
+    List<User> findByExample(User user);
     //List<User> saveAll(List<User> users);
 
 }

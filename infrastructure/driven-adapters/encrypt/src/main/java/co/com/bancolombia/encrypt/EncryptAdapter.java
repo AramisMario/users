@@ -10,11 +10,15 @@ public class EncryptAdapter implements EncryptInterface {
 
     private final PasswordEncoder encoder;
 
-    public EncryptAdapter(){
+    public EncryptAdapter() {
         this.encoder = new BCryptPasswordEncoder(10);
     }
 
     public String encrypt(String info) {
         return encoder.encode(info);
+    }
+
+    public boolean matches(String rawPassword, String encryptedPassword) {
+        return encoder.matches(rawPassword, encryptedPassword);
     }
 }
