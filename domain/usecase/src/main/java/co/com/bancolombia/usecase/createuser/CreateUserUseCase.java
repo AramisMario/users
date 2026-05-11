@@ -1,4 +1,9 @@
 package co.com.bancolombia.usecase.createuser;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import co.com.bancolombia.model.baseUser.User;
 import co.com.bancolombia.model.baseUser.gateways.EncryptInterface;
 import co.com.bancolombia.model.baseUser.gateways.UserRepository;
@@ -12,19 +17,33 @@ public class CreateUserUseCase {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final EncryptInterface encrypt;
-    //private User user;
+    // private User user;
 
-    public User execute(CreateUserCommand command/*User user*/){
+    public User execute(CreateUserCommand command) {
         System.out.println("DESDE CASO DE USO");
 
         Role role = roleRepository.findById(command.getIdRole());
         User user = command.getUser();
-
-        if(user.calcAge() < 18){
-            throw new IllegalArgumentException("El usuario es menor de edad");
-        }
+        String userAuthenticatedRole = command.getUserAuthenticatedRole();
 
         user.setRole(role);
+
+        //Map<String, List<String>> equipos = new HashMap<>();
+
+        Map<String, List<String>> createpermission = Map.of(
+                "Administrator", List.of("Owner"),
+                "Owner", List.of("Employee"));
+        System.out.println("USER AUTHENTICATED ROLE: "+userAuthenticatedRole);
+        System.out.println("LA LISTA: "+createpermission.getOrDefault(userAuthenticatedRole, List.of()));
+        System.out.println("EL ROL A CREAR: "+role.getName());
+
+        if (!createpermission.getOrDefault(userAuthenticatedRole, List.of()).contains(role.getName())) {
+            throw new RuntimeException("EL ROL NO TIENE PERMISOS PARA CREAR ROL ESPECIFICADO");
+        }
+
+        if (user.calcAge() < 18) {
+            throw new IllegalArgumentException("El usuario es menor de edad");
+        }
 
         user.setPassword(encrypt.encrypt(user.getPassword()));
         User savedUser = userRepository.save(user);

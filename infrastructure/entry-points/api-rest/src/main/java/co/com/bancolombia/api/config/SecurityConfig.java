@@ -6,21 +6,29 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import co.com.bancolombia.api.config.filters.JwtFilter;
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtFilter jwtFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
-
                 .authorizeHttpRequests(auth -> auth
-                        //.requestMatchers("/api/createuser/path").permitAll()
+                        .requestMatchers("/api/verifyowner/path").hasRole("Owner")
+                        .requestMatchers("/api/createuser/path").hasAnyRole("Administrator", "Owner")
+                        //.permitAll()
                         //.anyRequest().authenticated()
                         .anyRequest().permitAll()
                 )
-
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();

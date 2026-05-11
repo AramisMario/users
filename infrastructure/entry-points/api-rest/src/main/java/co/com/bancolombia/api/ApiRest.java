@@ -7,8 +7,12 @@ import co.com.bancolombia.dto.LoginDTO;
 import co.com.bancolombia.dto.UserIdDTO;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
+
+import co.com.bancolombia.model.authenticateduser.AuthenticatedUser;
 import co.com.bancolombia.model.baseUser.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.Authentication;
 import co.com.bancolombia.api.services.JwtService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,9 +34,25 @@ public class ApiRest {
     private final VerifyOwnerUseCase verifyOwnerUseCase;
     private final JwtService jwtService;
     private final LoginUseCase loginUseCase;
+
     @PostMapping(path = "/createuser/path")
     public ResponseEntity<ApiResponseBody<User>> createUser(@Valid @RequestBody UserDTO dto) {
         System.out.println("Api endpoint CREATE USER");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // String userId = authentication.getName();
+
+        String authenticatedRole = authentication.getAuthorities()
+                .iterator()
+                .next()
+                .getAuthority().substring(5);
+
+        // AuthenticatedUser authenticatedUser = new AuthenticatedUser(
+        // Integer.valueOf(userId),
+        // authenticatedRole);
+
+        System.out.println("AUTHENTICADES USER: " + authenticatedRole);
 
         User user = User.builder().name(dto.getName())
                 .lastName(dto.getLastName())
@@ -44,7 +64,11 @@ public class ApiRest {
                 .birthDate(dto.getBirthDate())
                 .build();
 
-        CreateUserCommand createUserCommand = new CreateUserCommand(user, dto.getIdRole());
+        CreateUserCommand createUserCommand = CreateUserCommand.builder()
+                .user(user)
+                .idRole(dto.getIdRole())
+                .userAuthenticatedRole(authenticatedRole)
+                .build();
 
         User savedUser = createUserUseCase.execute(createUserCommand);
 
@@ -102,12 +126,15 @@ public class ApiRest {
 
     @PostMapping("/login")
     public String login(@RequestBody LoginDTO dto) {
-    
-        LoginCommand loginCommand = new LoginCommand(dto.getEmail(),dto.getPassword());
+
+        LoginCommand loginCommand = new LoginCommand(dto.getEmail(), dto.getPassword());
         User userLoged = loginUseCase.execute(loginCommand);
-        //LoginUseCase.e
+        // Integer roleId = userLoged.getRole().getId();
+        String roleName = userLoged.getRole().getName();
+        System.out.println("ROLENAME: " + roleName);
+        // LoginUseCase.e
         // validar usuario y password aquí
         System.out.println("ANTES DE GENERAR EL TOKEN");
-        return jwtService.generateToken(userLoged.getId());
+        return jwtService.generateToken(userLoged.getId(), roleName);
     }
 }
