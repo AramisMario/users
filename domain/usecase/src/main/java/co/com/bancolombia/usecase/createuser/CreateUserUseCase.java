@@ -28,14 +28,9 @@ public class CreateUserUseCase {
 
         user.setRole(role);
 
-        //Map<String, List<String>> equipos = new HashMap<>();
-
         Map<String, List<String>> createpermission = Map.of(
                 "Administrator", List.of("Owner"),
                 "Owner", List.of("Employee"));
-        System.out.println("USER AUTHENTICATED ROLE: "+userAuthenticatedRole);
-        System.out.println("LA LISTA: "+createpermission.getOrDefault(userAuthenticatedRole, List.of()));
-        System.out.println("EL ROL A CREAR: "+role.getName());
 
         if (!createpermission.getOrDefault(userAuthenticatedRole, List.of()).contains(role.getName())) {
             throw new RuntimeException("EL ROL NO TIENE PERMISOS PARA CREAR ROL ESPECIFICADO");

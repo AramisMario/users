@@ -3,11 +3,11 @@ package co.com.bancolombia.api;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import co.com.bancolombia.dto.UserDTO;
+import co.com.bancolombia.dto.ClientDTO;
 import co.com.bancolombia.dto.LoginDTO;
 import co.com.bancolombia.dto.UserIdDTO;
 import org.springframework.http.MediaType;
 import org.springframework.http.HttpStatus;
-
 import co.com.bancolombia.model.authenticateduser.AuthenticatedUser;
 import co.com.bancolombia.model.baseUser.User;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import co.com.bancolombia.usecase.createclient.CreateClientUseCase;
+import co.com.bancolombia.usecase.createclient.CreateClientCommand;
 import co.com.bancolombia.usecase.createuser.CreateUserCommand;
 import co.com.bancolombia.usecase.createuser.CreateUserUseCase;
 import co.com.bancolombia.usecase.login.LoginCommand;
@@ -34,23 +37,17 @@ public class ApiRest {
     private final VerifyOwnerUseCase verifyOwnerUseCase;
     private final JwtService jwtService;
     private final LoginUseCase loginUseCase;
+    private final CreateClientUseCase createClientUseCase;
 
     @PostMapping(path = "/createuser/path")
     public ResponseEntity<ApiResponseBody<User>> createUser(@Valid @RequestBody UserDTO dto) {
-        System.out.println("Api endpoint CREATE USER");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // String userId = authentication.getName();
 
         String authenticatedRole = authentication.getAuthorities()
                 .iterator()
                 .next()
                 .getAuthority().substring(5);
-
-        // AuthenticatedUser authenticatedUser = new AuthenticatedUser(
-        // Integer.valueOf(userId),
-        // authenticatedRole);
 
         System.out.println("AUTHENTICADES USER: " + authenticatedRole);
 
@@ -137,4 +134,30 @@ public class ApiRest {
         System.out.println("ANTES DE GENERAR EL TOKEN");
         return jwtService.generateToken(userLoged.getId(), roleName);
     }
+
+    @PostMapping(path = "/createuserclient/path")
+    public ResponseEntity<ApiResponseBody<User>> createUserClient(@Valid @RequestBody ClientDTO dto) {
+
+        User user = User.builder().name(dto.getName())
+                .lastName(dto.getLastName())
+                .identificationDocument(dto.getIdentificationDocument())
+                .phone(dto.getPhone())
+                .email(dto.getEmail())
+                .role(null)
+                .password(dto.getPassword())
+                .build();
+
+        CreateClientCommand createClientCommand = CreateClientCommand.builder()
+                .user(user)
+                .build();
+
+        User savedUser = createClientUseCase.execute(createClientCommand);
+
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setHttpStatus(HttpStatus.CREATED);
+        apiResponse.setData(
+                new ApiResponseBody<User>("CREATED", "Cliente creado", savedUser));
+        return apiResponse.response();
+    }
+
 }
