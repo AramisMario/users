@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/verifyowner/path").hasRole("Owner")
+                        .requestMatchers("/api/verifyowner/path").hasRole("Administrator")
                         .requestMatchers("/api/createuser/path").hasAnyRole("Administrator", "Owner")
                         //.permitAll()
                         //.anyRequest().authenticated()
